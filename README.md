@@ -1,2 +1,2 @@
-# Algoritmo-de-Strassen
-Repositório do algoritmo de strassen implementado.
+# Algoritmo de Strassen
+## Autor: HenriUz
