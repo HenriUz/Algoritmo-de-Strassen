@@ -78,7 +78,7 @@ void strassen(int ***matrizO, int ***matrizF, int ***matrizR, intervalo *inO, in
     int ***bas1, ***bas2, ***bas3, ***bas4, ***bas5, ***bas6, ***bas7, ***bas8, ***bas9, ***bas10; //Matrizes resultantes das 10 operações básicas. As 4 primeiras também serão utilizadas para o calcular os quadrantes finais.
     int newN = n/2; //Nova dimensão (newN x newN).
 
-    if(n <= 32) {
+    if(n <= 64) {
         multiplicarMatrizes(matrizO, matrizF, matrizR, inO, inF); //Multiplicando as matrizes com o algoritmo primitivo.
     }else {
         /* Setando as linhas dos quadrantes. */
@@ -286,12 +286,10 @@ void strassen(int ***matrizO, int ***matrizF, int ***matrizR, intervalo *inO, in
 }
 
 int main(void) {
-    FILE *imagem = fopen("C:\\Users\\Henrique Zucato\\Documents\\01-Universidade\\4-Periodo\\CTCO04-Projeto-E-Analise-De-Algoritmos\\Trabalho-01-Multiplicacao-Matrizes\\Codigos\\ppm\\10.in", "r");
-    //FILE *outEsp = fopen("C:\\Users\\Henrique Zucato\\Documents\\01-Universidade\\4-Periodo\\CTCO04-Projeto-E-Analise-De-Algoritmos\\Trabalho-01-Multiplicacao-Matrizes\\Codigos\\ppm\\10.out", "r");
+    FILE *imagem = fopen("C:\\Users\\Henrique Zucato\\Documents\\01-Universidade\\4-Periodo\\CTCO04-Projeto-E-Analise-De-Algoritmos\\Trabalho-01-Multiplicacao-Matrizes\\Codigos\\ppm\\3.in", "r");
     char codificacao[3]; //Codificação da imagem.
     int c; //Maior pixel.
     int ***matrizO, ***matrizF, ***matrizR; //Matriz original (imagem), matriz filtro, matriz resultado (imagem após o filtro).
-    //int ***matEsp;
     intervalo inImagem; //Intervalo da matriz da imagem.
 
     /* Verificando se a imagem abriu. */
@@ -318,17 +316,14 @@ int main(void) {
     matrizO = (int ***)malloc(sizeof(int **) * inImagem.i2);
     matrizF = (int ***)malloc(sizeof(int **) * inImagem.i2);
     matrizR = (int ***)malloc(sizeof(int **) * inImagem.i2);
-    //matEsp = (int ***)malloc(sizeof(int **) * inImagem.i2);
     for(int i = 0; i < inImagem.i2; i++) {
         matrizO[i] = (int **)malloc(sizeof(int *) * inImagem.j2);
         matrizF[i] = (int **)malloc(sizeof(int *) * inImagem.j2);
         matrizR[i] = (int **)malloc(sizeof(int *) * inImagem.j2);
-        //matEsp[i] = (int **)malloc(sizeof(int *) * inImagem.j2);
         for(int j = 0; j < inImagem.j2; j++) {
             matrizO[i][j] = (int *)malloc(sizeof(int) * 3);
             matrizF[i][j] = (int *)malloc(sizeof(int) * 3);
             matrizR[i][j] = (int *)malloc(sizeof(int) * 3);
-            //matEsp[i][j] = (int *)malloc(sizeof(int) * 3);
         }
     }
 
@@ -337,7 +332,6 @@ int main(void) {
         for(int j = 0; j < inImagem.j2; j++) {
             for(int k = 0; k < 3; k++) {
                 fscanf(imagem, "%d", &matrizO[i][j][k]);
-                //fscanf(outEsp, "%d", &matEsp[i][j][k]);
             }
         }
     }
@@ -350,22 +344,10 @@ int main(void) {
     }
 
     /* Aplicando o filtro (multiplicando por meio do algoritmo de Strassen). */
-    strassen(matrizO, matrizF, matrizR, &inImagem, &inImagem, inImagem.i2);
     printf("%s", codificacao);
     printf("\n%d %d", inImagem.i2, inImagem.i2);
     printf("\n%d\n", c);
-    //imprimeMatriz(matrizR, inImagem.i2);
-
-    /* Verificando igualdade. */
-    // for(int i = 0; i < inImagem.i2; i++) {
-    //     for(int j = 0; j < inImagem.j2; j++) {
-    //         for(int k = 0; k < 3; k++) {
-    //             if(matrizR[i][j][k] != matEsp[i][j][k]) {
-    //                 printf("\nErro identificado - %d %d %d - %d %d.", i, j, k, matrizR[i][j][k], matEsp[i][j][k]);
-    //             }
-    //         }
-    //     }
-    // }
+    imprimeMatriz(matrizR, inImagem.i2);
 
     /* Liberando memória e fechando o arquivo. */
     for(int i = 0; i < inImagem.i2; i++) {
@@ -373,17 +355,14 @@ int main(void) {
             free(matrizO[i][j]);
             free(matrizF[i][j]);
             free(matrizR[i][j]);
-            //free(matEsp[i][j]);
         }
         free(matrizO[i]);
         free(matrizF[i]);
         free(matrizR[i]);
-        //free(matEsp[i]);
     }
     free(matrizO);
     free(matrizF);
     free(matrizR);
-    //free(matEsp);
     fclose(imagem);
     return 0;
 }
