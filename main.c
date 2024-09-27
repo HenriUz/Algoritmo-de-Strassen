@@ -251,7 +251,7 @@ void strassen(pixel *matrizO, pixel *matrizF, pixel *matrizR, intervalo inO, int
 }
 
 int main(void) {
-    FILE *imagem = fopen("C:\\Users\\Henrique Zucato\\Documents\\01-Universidade\\4-Periodo\\CTCO04-Projeto-E-Analise-De-Algoritmos\\Trabalho-01-Multiplicacao-Matrizes\\Codigos\\ppm\\10.in", "r");
+    FILE *imagem = fopen("ppm\\10.in", "r");
     char codificacao[3]; //Codificação da imagem.
     int c; //Maior pixel.
     int elemento; //Auxiliar para contas repetitivas.
